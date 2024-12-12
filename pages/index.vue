@@ -13,6 +13,7 @@
           </template>
           <template #location_start-data="{ row }">
             <UButton
+              v-if="row.location_start?.coords"
               variant="link"
               icon="i-heroicons-map-pin"
               :to="

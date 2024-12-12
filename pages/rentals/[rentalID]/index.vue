@@ -17,7 +17,13 @@
           <input type="datetime-local" v-model="state.ended_at" />
         </UFormGroup>
 
-        <UButton type="submit" :isLoading="isLoading"> Buchen </UButton>
+        <UButton
+          type="submit"
+          :isLoading="isLoading"
+          :disabled="!state.location_start"
+        >
+          Buchen
+        </UButton>
       </UForm>
     </UCard>
   </article>
@@ -50,7 +56,7 @@ function formatDate(date: Date) {
 }
 
 const state = reactive({
-  location_start: {},
+  location_start: null,
   started_at: formatDate(new Date()),
   ended_at: formatDate(new Date()),
   rental_id: route.params.rentalID,
@@ -62,11 +68,8 @@ const onSubmit = async (event) => {
 
   const created = await bookingStore.create(state);
   console.log("CREATED", created);
-};
-const upDate = (event: Event) => {
-  const { value } = event.target as HTMLInputElement;
 
-  console.log(value);
+  if (created) navigateTo("/");
 };
 
 onMounted(() => {
